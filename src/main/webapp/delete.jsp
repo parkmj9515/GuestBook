@@ -1,21 +1,31 @@
-<%@ page import="guestbook.dao.GuestbookDao, guestbook.dao.GuestbookOracle" %>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<%@page import="guestbook.vo.GuestVo"%>
+<%@page import="guestbook.dao.GuestbookOracle"%>
+<%@page import="guestbook.dao.GuestbookDao"%>
+    
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%
-    Long id = Long.parseLong(request.getParameter("id"));
+String password = request.getParameter("password");
 
-    ServletContext context = getServletContext();
-    String dbuser = context.getInitParameter("dbuser");
-    String dbpass = context.getInitParameter("dbpass");
+ServletContext servletContext = getServletContext();
+String dbuser = servletContext.getInitParameter("dbuser");
+String dbpass = servletContext.getInitParameter("dbpass");
 
-    GuestbookDao dao = new GuestbookOracle(dbuser, dbpass);
-    boolean success = dao.delete(id);
+GuestbookDao dao = new GuestbookOracle(dbuser, dbpass);
 
-    if (success) { // DELETE 성공
-        response.sendRedirect("list.jsp");
-    } else {
-        %>
-        <h1>Error</h1>
-        <p>데이터 삭제 중 오류가 발생했습니다.</p>
-        <%
-    }
+Long no = Long.parseLong(request.getParameter("no"));
+GuestVo vo = dao.get(no);
+
+if (password.equals(vo.getPassword())) {
+	dao.delete(vo);
+	response.sendRedirect(request.getContextPath());
+} else {
+	
+	%>
+	<h1>비밀번호가 일치하지 않습니다.</h1>
+	<a href="<%= request.getContextPath() %>">메인으로 돌아가기</a>
+	<%
+}
+
+
 %>
