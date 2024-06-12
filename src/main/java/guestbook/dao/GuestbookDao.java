@@ -6,8 +6,9 @@ import guestbook.vo.GuestVo;
 
 
 public interface GuestbookDao {
-    public List<GuestVo> getList(); 
-    public boolean insert(GuestVo vo); 
-    public boolean delete(GuestVo vo);
-    		GuestVo get(Long no);
+    List<GuestVo> getList(); 
+    boolean insert(GuestVo vo); 
+    boolean delete(Long id);
+    			GuestVo get(Long id);
+				
 }

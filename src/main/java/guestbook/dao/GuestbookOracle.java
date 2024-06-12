@@ -135,7 +135,7 @@ public class GuestbookOracle implements GuestbookDao {
             pstmt.setString(3, vo.getContent());
             insertedCount = pstmt.executeUpdate();
             
-            conn.commit();
+//            conn.commit();
             
         } catch (Exception e) {
             e.printStackTrace();
@@ -150,26 +150,24 @@ public class GuestbookOracle implements GuestbookDao {
 				e.printStackTrace();
 			}
 		}
-		return 0 == insertedCount;
+		return 1 == insertedCount;
 	}
     @Override
-	public boolean delete(GuestVo vo) {
-		int deleteCount = 0;
-		String sql = """
-				DELETE FROM guestbook
-				WHERE no = ?
-				""";
-		try (
-				Connection con = getConnection();
-				PreparedStatement pstmt = con.prepareStatement(sql);
-		) {
-			pstmt.setLong(1, vo.getNo());
-			deleteCount = pstmt.executeUpdate();
-		} catch (SQLException e) {
-			System.err.println("연결 에러");
-		} catch (Exception e) {
-			System.err.println("에러");
-		}
-		return deleteCount == 1;
-	}
+    public boolean delete(Long id) {
+        int deleteCount = 0;
+        String sql = "DELETE FROM guestbook WHERE no=?";
+
+        try (
+            Connection con = getConnection();
+            PreparedStatement pstmt = con.prepareStatement(sql);
+        ) {
+            pstmt.setLong(1, id);
+            deleteCount = pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("SQL 연결 에러: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("에러: " + e.getMessage());
+        }
+        return deleteCount == 1;
+    }
 }

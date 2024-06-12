@@ -17,7 +17,7 @@ Long no = Long.parseLong(request.getParameter("no"));
 GuestVo vo = dao.get(no);
 
 if (password.equals(vo.getPassword())) {
-	dao.delete(vo);
+	dao.delete(no);
 	response.sendRedirect(request.getContextPath());
 } else {
 	

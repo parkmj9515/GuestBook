@@ -6,7 +6,7 @@
 <title>방명록</title>
 </head>
 <body>
-	<form method="post" action="delete.jsp?no=<%= request.getParameter("no") %>">
+	<form method="POST" action="delete.jsp?no=<%= request.getParameter("no") %>">
 	<input type='hidden' name="id" value="">
 	<table>
 		<tr>
