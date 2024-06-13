@@ -6,6 +6,7 @@
 <%
 
 ServletContext servletContext = getServletContext();
+
 String dbuser = servletContext.getInitParameter("dbuser");
 String dbpass = servletContext.getInitParameter("dbpass");
 
@@ -23,7 +24,7 @@ String dbpass = servletContext.getInitParameter("dbpass");
 	boolean success = dao.insert(vo);
 	
 	if (success)
-		response.sendRedirect(request.getContextPath());
+		response.sendRedirect(request.getContextPath() + "/guestbook/list.jsp");
 	else {
 		%>
 		<h1>Error</h1>

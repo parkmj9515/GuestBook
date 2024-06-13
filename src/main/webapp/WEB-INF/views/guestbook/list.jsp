@@ -45,7 +45,7 @@ for (GuestVo node: lst) {
             <td><%= node.getNo() %></td>
             <td><%= node.getName() %></td>
             <td><!-- %= sdf.format(node.getDate()) % --></td> 
-            <td><a href="delete.jsp?password=?<%=node.getNo() %>">삭제</a></td>
+            <td><a href="delete.jsp<%=node.getNo() %>">삭제</a></td>
         </tr>
         <tr>
             <td colspan=4><%= node.getContent() %></td>

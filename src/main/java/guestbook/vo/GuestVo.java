@@ -14,6 +14,7 @@ public class GuestVo {
     public GuestVo() {}
     
     public GuestVo(String name, String password, String content) {
+    	super();
 		this.name = name;
 		this.password = password;
 		this.content = content;
@@ -21,6 +22,7 @@ public class GuestVo {
 
     // 매개변수가 있는 생성자
     public GuestVo(Long no, String name, String password, String content, Date regDate) {
+    	super();
         this.no = no;
         this.name = name;
         this.password = password;
@@ -70,14 +72,11 @@ public class GuestVo {
         this.regDate = regDate;
     }
 
-    @Override
-    public String toString() {
-        return "GuestVo{" +
-                "no=" + no +
-                ", name='" + name + '\'' +
-                ", password=" + password +
-                ", content='" + content + '\'' +
-                ", regDate=" + regDate +
-                '}';
-    }
+	@Override
+	public String toString() {
+		return "GuestVo [no=" + no + ", name=" + name + ", password=" + password + ", content=" + content + ", regDate="
+				+ regDate + "]";
+	}
+
+
 }

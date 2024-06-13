@@ -126,7 +126,7 @@ public class GuestbookOracle implements GuestbookDao {
         try {
             conn = getConnection();
            String sql = "INSERT INTO guestbook (no, name, password, content, reg_date)"+ 
-        		   "VALUES (seq_guestbook_no.nextval, ?, ?, ?, sysdate)";
+        		   "VALUES (seq_guestbook_no.nextval, ?, ?, ?,sysdate)";
            
             pstmt = conn.prepareStatement(sql); 
             
@@ -135,7 +135,7 @@ public class GuestbookOracle implements GuestbookDao {
             pstmt.setString(3, vo.getContent());
             insertedCount = pstmt.executeUpdate();
             
-//            conn.commit();
+            conn.commit();
             
         } catch (Exception e) {
             e.printStackTrace();
@@ -154,20 +154,27 @@ public class GuestbookOracle implements GuestbookDao {
 	}
     @Override
     public boolean delete(Long id) {
-        int deleteCount = 0;
-        String sql = "DELETE FROM guestbook WHERE no=?";
-
-        try (
-            Connection con = getConnection();
-            PreparedStatement pstmt = con.prepareStatement(sql);
-        ) {
-            pstmt.setLong(1, id);
-            deleteCount = pstmt.executeUpdate();
-        } catch (SQLException e) {
-            System.err.println("SQL 연결 에러: " + e.getMessage());
-        } catch (Exception e) {
-            System.err.println("에러: " + e.getMessage());
-        }
-        return deleteCount == 1;
-    }
+    	Connection conn = null;
+		PreparedStatement pstmt = null;
+		int deletedCount = 0;
+		try {
+			conn = getConnection();
+			String sql = "DELETE FROM guestbook WHERE no=?";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, id);
+			
+			deletedCount = pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) pstmt.close();
+				if (conn != null) conn.close();
+			} catch (Exception e) {
+				System.err.println("ERROR:" + e.getMessage());
+			}
+		}
+		return 1 == deletedCount;
+	}
 }
