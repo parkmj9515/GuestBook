@@ -11,13 +11,13 @@ String dbuser = servletContext.getInitParameter("dbuser");
 String dbpass = servletContext.getInitParameter("dbpass");
 
 
-	String name = request.getParameter("name");
-	String pass = request.getParameter("password");
+	String name = request.getParameter("nama");
+	String password = request.getParameter("password");
 	String content = request.getParameter("content");
 	
 	
 	
-	GuestVo vo = new GuestVo(name, pass, content);
+	GuestVo vo = new GuestVo(name,password,content);
 	GuestbookDao dao = new GuestbookOracle(dbuser, dbpass);
 	
 

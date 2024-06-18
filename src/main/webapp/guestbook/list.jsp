@@ -18,7 +18,7 @@
 			<td>이름</td>
 			<td><input type="text" name="name"></td>
 			<td>비밀번호</td>
-			<td><input type="password" name="pass"></td>
+			<td><input type="password" name="password"></td>
 		</tr>
 		<tr>
 			<td colspan=4><textarea name="content" cols=60 rows=5></textarea></td>

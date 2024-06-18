@@ -118,40 +118,49 @@ public class GuestbookOracle implements GuestbookDao {
 	}
    
     @Override
-    public boolean insert(GuestVo vo) { // INSERT
-    	Connection conn = null;
-    	PreparedStatement pstmt = null;
+    public boolean insert(GuestVo vo) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
         int insertedCount = 0;
-        
+
         try {
             conn = getConnection();
-           String sql = "INSERT INTO guestbook (no, name, password, content, reg_date)"+ 
-        		   "VALUES (seq_guestbook_no.nextval, ?, ?, ?,sysdate)";
-           
+            String sql = "INSERT INTO guestbook (no, name, password, content, reg_date) " +
+                         "VALUES (seq_guestbook_no.nextval, ?, ?, ?, sysdate)";
+
             pstmt = conn.prepareStatement(sql); 
-            
+
             pstmt.setString(1, vo.getName());
-            pstmt.setString(2, vo.getPassword());
+            
+            // password가 null인 경우 처리
+            if (vo.getPassword() != null) {
+                pstmt.setString(2, vo.getPassword());
+            } else {
+                // 기본값이나 예외 처리 방식을 선택하여 처리
+                pstmt.setString(2, "기본비밀번호"); // 적절한 기본값으로 대체하십시오.
+            }
+            
             pstmt.setString(3, vo.getContent());
+            
             insertedCount = pstmt.executeUpdate();
             
             conn.commit();
             
         } catch (Exception e) {
             e.printStackTrace();
-            // SQLException 발생 시 적절한 예외 처리
+            // SQLException 또는 다른 예외 처리
         } finally {
-			try {
-				if (pstmt != null)
-					pstmt.close();
-				if (conn != null)
-					conn.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		return 1 == insertedCount;
-	}
+            try {
+                if (pstmt != null)
+                    pstmt.close();
+                if (conn != null)
+                    conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return 1 == insertedCount;
+    }
     @Override
     public boolean delete(Long id) {
     	Connection conn = null;
